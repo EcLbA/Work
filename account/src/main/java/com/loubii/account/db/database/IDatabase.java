@@ -27,13 +27,13 @@ public interface IDatabase<M, K> {
 
     boolean deleteInTx(@NotNull List<M> list);
 
-    boolean deleteByKeyInTx(@NotNull K... key);
+    boolean deleteByKeyInTx(@NotNull K key);
 
     boolean deleteAll();
 
     boolean update(@NotNull M m);
 
-    boolean updateInTx(@NotNull M... m);
+    boolean updateInTx(@NotNull M m);
 
     boolean updateInTx(@NotNull List<M> list);
 

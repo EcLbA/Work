@@ -61,6 +61,16 @@ public class DbHelper {
         if (author == null) {
             author = new DBManager<AccountModel, Long>(){
                 @Override
+                public boolean deleteByKeyInTx(Long key) {
+                    return false;
+                }
+
+                @Override
+                public boolean updateInTx(AccountModel accountModel) {
+                    return false;
+                }
+
+                @Override
                 public AbstractDao<AccountModel, Long> getAbstractDao() {
                     return mDaoSession.getAccountModelDao();
                 }

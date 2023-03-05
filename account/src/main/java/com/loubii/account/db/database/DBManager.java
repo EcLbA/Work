@@ -96,7 +96,6 @@ public abstract class DBManager<M, K> implements IDatabase<M, K> {
     }
 
     @SafeVarargs
-    @Override
     public final boolean deleteByKeyInTx(@NotNull K... key) {
         try {
             getAbstractDao().deleteByKeyInTx(key);
@@ -130,7 +129,7 @@ public abstract class DBManager<M, K> implements IDatabase<M, K> {
     }
 
     @SafeVarargs
-    @Override
+
     public final boolean updateInTx(@NotNull M... m) {
         try {
             getAbstractDao().updateInTx(m);
