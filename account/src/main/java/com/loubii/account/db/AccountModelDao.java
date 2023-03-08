@@ -1,5 +1,6 @@
 package com.loubii.account.db;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -8,6 +9,8 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.loubii.account.bean.AccountModel;
 
@@ -24,16 +27,18 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Count = new Property(1, float.class, "count", false, "COUNT");
-        public final static Property OutIntype = new Property(2, int.class, "outIntype", false, "OUT_INTYPE");
-        public final static Property DetailType = new Property(3, String.class, "detailType", false, "DETAIL_TYPE");
-        public final static Property PicRes = new Property(4, int.class, "picRes", false, "PIC_RES");
-        public final static Property Time = new Property(5, java.util.Date.class, "time", false, "TIME");
-        public final static Property Note = new Property(6, String.class, "note", false, "NOTE");
-        public final static Property Remark = new Property(7, String.class, "remark", false, "REMARK");
+        public final static Property AccountId = new Property(0, Long.class, "accountId", true, "_id");
+        public final static Property BookID = new Property(1, Long.class, "bookID", false, "BOOK_ID");
+        public final static Property Count = new Property(2, float.class, "count", false, "COUNT");
+        public final static Property OutIntype = new Property(3, int.class, "outIntype", false, "OUT_INTYPE");
+        public final static Property DetailType = new Property(4, String.class, "detailType", false, "DETAIL_TYPE");
+        public final static Property PicRes = new Property(5, int.class, "picRes", false, "PIC_RES");
+        public final static Property Time = new Property(6, java.util.Date.class, "time", false, "TIME");
+        public final static Property Note = new Property(7, String.class, "note", false, "NOTE");
+        public final static Property Remark = new Property(8, String.class, "remark", false, "REMARK");
     }
 
+    private Query<AccountModel> bookBean_AccountModellistQuery;
 
     public AccountModelDao(DaoConfig config) {
         super(config);
@@ -47,14 +52,15 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"ACCOUNT_MODEL\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"COUNT\" REAL NOT NULL ," + // 1: count
-                "\"OUT_INTYPE\" INTEGER NOT NULL ," + // 2: outIntype
-                "\"DETAIL_TYPE\" TEXT," + // 3: detailType
-                "\"PIC_RES\" INTEGER NOT NULL ," + // 4: picRes
-                "\"TIME\" INTEGER," + // 5: time
-                "\"NOTE\" TEXT," + // 6: note
-                "\"REMARK\" TEXT);"); // 7: remark
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: accountId
+                "\"BOOK_ID\" INTEGER," + // 1: bookID
+                "\"COUNT\" REAL NOT NULL ," + // 2: count
+                "\"OUT_INTYPE\" INTEGER NOT NULL ," + // 3: outIntype
+                "\"DETAIL_TYPE\" TEXT," + // 4: detailType
+                "\"PIC_RES\" INTEGER NOT NULL ," + // 5: picRes
+                "\"TIME\" INTEGER," + // 6: time
+                "\"NOTE\" TEXT," + // 7: note
+                "\"REMARK\" TEXT);"); // 8: remark
     }
 
     /** Drops the underlying database table. */
@@ -67,32 +73,37 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
     protected final void bindValues(DatabaseStatement stmt, AccountModel entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        Long accountId = entity.getAccountId();
+        if (accountId != null) {
+            stmt.bindLong(1, accountId);
         }
-        stmt.bindDouble(2, entity.getCount());
-        stmt.bindLong(3, entity.getOutIntype());
+ 
+        Long bookID = entity.getBookID();
+        if (bookID != null) {
+            stmt.bindLong(2, bookID);
+        }
+        stmt.bindDouble(3, entity.getCount());
+        stmt.bindLong(4, entity.getOutIntype());
  
         String detailType = entity.getDetailType();
         if (detailType != null) {
-            stmt.bindString(4, detailType);
+            stmt.bindString(5, detailType);
         }
-        stmt.bindLong(5, entity.getPicRes());
+        stmt.bindLong(6, entity.getPicRes());
  
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(6, time.getTime());
+            stmt.bindLong(7, time.getTime());
         }
  
         String note = entity.getNote();
         if (note != null) {
-            stmt.bindString(7, note);
+            stmt.bindString(8, note);
         }
  
         String remark = entity.getRemark();
         if (remark != null) {
-            stmt.bindString(8, remark);
+            stmt.bindString(9, remark);
         }
     }
 
@@ -100,32 +111,37 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
     protected final void bindValues(SQLiteStatement stmt, AccountModel entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        Long accountId = entity.getAccountId();
+        if (accountId != null) {
+            stmt.bindLong(1, accountId);
         }
-        stmt.bindDouble(2, entity.getCount());
-        stmt.bindLong(3, entity.getOutIntype());
+ 
+        Long bookID = entity.getBookID();
+        if (bookID != null) {
+            stmt.bindLong(2, bookID);
+        }
+        stmt.bindDouble(3, entity.getCount());
+        stmt.bindLong(4, entity.getOutIntype());
  
         String detailType = entity.getDetailType();
         if (detailType != null) {
-            stmt.bindString(4, detailType);
+            stmt.bindString(5, detailType);
         }
-        stmt.bindLong(5, entity.getPicRes());
+        stmt.bindLong(6, entity.getPicRes());
  
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(6, time.getTime());
+            stmt.bindLong(7, time.getTime());
         }
  
         String note = entity.getNote();
         if (note != null) {
-            stmt.bindString(7, note);
+            stmt.bindString(8, note);
         }
  
         String remark = entity.getRemark();
         if (remark != null) {
-            stmt.bindString(8, remark);
+            stmt.bindString(9, remark);
         }
     }
 
@@ -137,40 +153,42 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
     @Override
     public AccountModel readEntity(Cursor cursor, int offset) {
         AccountModel entity = new AccountModel( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getFloat(offset + 1), // count
-            cursor.getInt(offset + 2), // outIntype
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // detailType
-            cursor.getInt(offset + 4), // picRes
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // time
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // note
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // remark
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // accountId
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // bookID
+            cursor.getFloat(offset + 2), // count
+            cursor.getInt(offset + 3), // outIntype
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // detailType
+            cursor.getInt(offset + 5), // picRes
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // time
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // note
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // remark
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, AccountModel entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCount(cursor.getFloat(offset + 1));
-        entity.setOutIntype(cursor.getInt(offset + 2));
-        entity.setDetailType(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setPicRes(cursor.getInt(offset + 4));
-        entity.setTime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setNote(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setRemark(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setAccountId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setBookID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setCount(cursor.getFloat(offset + 2));
+        entity.setOutIntype(cursor.getInt(offset + 3));
+        entity.setDetailType(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPicRes(cursor.getInt(offset + 5));
+        entity.setTime(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
+        entity.setNote(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setRemark(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override
     protected final Long updateKeyAfterInsert(AccountModel entity, long rowId) {
-        entity.setId(rowId);
+        entity.setAccountId(rowId);
         return rowId;
     }
     
     @Override
     public Long getKey(AccountModel entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getAccountId();
         } else {
             return null;
         }
@@ -178,7 +196,7 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
 
     @Override
     public boolean hasKey(AccountModel entity) {
-        return entity.getId() != null;
+        return entity.getAccountId() != null;
     }
 
     @Override
@@ -186,4 +204,18 @@ public class AccountModelDao extends AbstractDao<AccountModel, Long> {
         return true;
     }
     
+    /** Internal query to resolve the "accountModellist" to-many relationship of BookBean. */
+    public List<AccountModel> _queryBookBean_AccountModellist(Long bookID) {
+        synchronized (this) {
+            if (bookBean_AccountModellistQuery == null) {
+                QueryBuilder<AccountModel> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.BookID.eq(null));
+                bookBean_AccountModellistQuery = queryBuilder.build();
+            }
+        }
+        Query<AccountModel> query = bookBean_AccountModellistQuery.forCurrentThread();
+        query.setParameter(0, bookID);
+        return query.list();
+    }
+
 }

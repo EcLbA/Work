@@ -16,9 +16,11 @@ import android.widget.TextView;
 import com.loubii.account.R;
 import com.loubii.account.adapter.BillAdapter;
 import com.loubii.account.bean.AccountModel;
+import com.loubii.account.bean.BookBean;
 import com.loubii.account.constants.Config;
 import com.loubii.account.constants.Extra;
 import com.loubii.account.db.AccountModelDao;
+import com.loubii.account.db.DaoSession;
 import com.loubii.account.db.database.DBManager;
 import com.loubii.account.db.database.DbHelper;
 import com.loubii.account.event.AccountChangeEvent;
@@ -85,6 +87,8 @@ public class FragmentBill extends BaseEventFragment {
     private List<AccountModel> mAccountList = new ArrayList<>();
     private Date mCurrentDate;
 
+    private Long BookID;
+
 
     public FragmentBill() {
         // Required empty public constructor
@@ -116,6 +120,12 @@ public class FragmentBill extends BaseEventFragment {
     @Override
     protected void initData() {
         initTitleData();
+        initList();
+    }
+
+    private void initList(){
+        Intent intent = getActivity().getIntent();
+        BookID = intent.getLongExtra(Extra.BOOK_ID,0L);
     }
 
     private void initTitleData() {
@@ -227,7 +237,7 @@ public class FragmentBill extends BaseEventFragment {
      */
     private List<AccountModel> getAccountList(int offSet, Date currentDate) {
         List<AccountModel> accountList = mDbManager.queryBuilder()
-                .where(AccountModelDao.Properties.Time.between
+                .where(AccountModelDao.Properties.BookID.eq(BookID),AccountModelDao.Properties.Time.between
                         (TimeUtil.getFirstDayOfMonth(currentDate), TimeUtil.getEndDayOfMonth(currentDate)))
                 .orderAsc(AccountModelDao.Properties.Time)
                 .offset(offSet * Config.LIST_LOAD_NUM)

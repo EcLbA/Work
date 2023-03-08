@@ -1,6 +1,8 @@
 package com.loubii.account.ui.avtivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
@@ -121,9 +123,18 @@ public class AddAccountActivity extends BaseActivity {
     //备注
     private String mStrNote;
 
+    private SharedPreferences sp;
+    private SharedPreferences preferences;
+    public void initSharedpreference(){
+        sp = getPreferences(Activity.MODE_PRIVATE);
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initSharedpreference(preferences);
     }
 
     @Override
@@ -197,6 +208,7 @@ public class AddAccountActivity extends BaseActivity {
         AccountModel accountModel = new AccountModel();
         accountModel.setCount(result);
         accountModel.setOutIntype(mOutInType);
+        accountModel.setBookID(sp.getLong("BookSelected",0));
         if (mOutInType == 1) {
             accountModel.setDetailType(mExpendCommonList.get(mCurrentSelectPosition).getName());
             accountModel.setPicRes(mExpendCommonList.get(mCurrentSelectPosition).getIconRes());

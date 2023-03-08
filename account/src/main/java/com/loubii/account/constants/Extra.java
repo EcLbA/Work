@@ -17,6 +17,8 @@ public class Extra {
     public static final String ACCOUNT_HAS_CHANGE = "ACCOUNT_HAS_CHANGE";
 
     public static final String DETAIL_TYPE_DEFAULT = "DETAIL_TYPE_DEFAULT";
+    public static final String BOOK_ADD = "BOOK_ADD";
+    public static final String BOOK_ID = "BOOK_ID";
     /** 储蓄卡 */
     public static int CARD_DEPOSIT = 0;
     /** 信用卡 */

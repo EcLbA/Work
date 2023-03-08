@@ -111,12 +111,12 @@ public class FragmentCard extends BaseEventFragment{
 
     private List<CardBean> getCardData() {
         mCardList = new ArrayList<>();
-        for (int i=0; i<3; i++) {
+        /*for (int i=0; i<2; i++) {
             CardBean cardBean = new CardBean();
             cardBean.setCardName("民生银行");
             mCardList.add(cardBean);
-        }
-        for (int i=0; i<3; i++) {
+        }*/
+        for (int i=0; i<1; i++) {
             CardBean cardBean = new CardBean();
             cardBean.setCardName("中信银行");
             mCardList.add(cardBean);

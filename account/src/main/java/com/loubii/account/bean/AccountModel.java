@@ -39,7 +39,9 @@ import java.util.Date;
 public class AccountModel implements Comparable<AccountModel>{
 
     @Id(autoincrement = true)
-    private Long id; //用户唯一标识
+    private Long accountId; //用户唯一标识
+
+    private Long bookID;
 
     // 唯一，默认索引
     //@Unique
@@ -88,11 +90,11 @@ public class AccountModel implements Comparable<AccountModel>{
     public void setCount(float count) {
         this.count = count;
     }
-    public Long getId() {
-        return this.id;
+    public Long getAccountId() {
+        return this.accountId;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
     public String getRemark() {
         return this.remark;
@@ -112,8 +114,8 @@ public class AccountModel implements Comparable<AccountModel>{
     public void setPicRes(int picRes) {
         this.picRes = picRes;
     }
-    public AccountModel(Long id, float count, int outIntype, String detailType, String note, String remark) {
-        this.id = id;
+    public AccountModel(Long accountId, float count, int outIntype, String detailType, String note, String remark) {
+        this.accountId = accountId;
         this.count = count;
         this.outIntype = outIntype;
         this.detailType = detailType;
@@ -122,10 +124,11 @@ public class AccountModel implements Comparable<AccountModel>{
     }
     public AccountModel() {
     }
-    @Generated(hash = 741446720)
-    public AccountModel(Long id, float count, int outIntype, String detailType, int picRes, Date time,
+    @Generated(hash = 1560876551)
+    public AccountModel(Long accountId, Long bookID, float count, int outIntype, String detailType, int picRes, Date time,
             String note, String remark) {
-        this.id = id;
+        this.accountId = accountId;
+        this.bookID = bookID;
         this.count = count;
         this.outIntype = outIntype;
         this.detailType = detailType;
@@ -134,7 +137,6 @@ public class AccountModel implements Comparable<AccountModel>{
         this.note = note;
         this.remark = remark;
     }
-
     @Override
     public int compareTo(AccountModel o) {
         if (this.count < o.count)
@@ -143,5 +145,11 @@ public class AccountModel implements Comparable<AccountModel>{
             return 1;
         else
             return 0;
+    }
+    public Long getBookID() {
+        return this.bookID;
+    }
+    public void setBookID(Long bookID) {
+        this.bookID = bookID;
     }
 }

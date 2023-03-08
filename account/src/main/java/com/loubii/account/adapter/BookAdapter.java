@@ -4,14 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loubii.account.R;
-import com.loubii.account.bean.CardBean;
+import com.loubii.account.bean.BookBean;
 import com.loubii.account.constants.CardRes;
 import com.loubii.account.constants.Extra;
 import com.loubii.account.ui.card.CardRemindActivity;
@@ -22,36 +21,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * 单选模式
- *
- * @author luo
- * @date 2017/8/14
- */
-public class CardAdapter extends BaseRecycleAdapter {
-
+public class BookAdapter extends BaseRecycleAdapter {
 
     private static final int TYPE_END = 1;
     private static final int TYPE_ITEM = 0;
     private static int TYPE = TYPE_ITEM;
-    private final List<CardBean> mList;
+    private final List<BookBean> mList;
 
     private Context context;
 
 
-    public CardAdapter(Context context, List<CardBean> list) {
+    public BookAdapter(Context context, List<BookBean> list) {
         this.context = context;
         this.mList = list;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM)
-            return new ItemHoleder(LayoutInflater.from(context).inflate(R.layout.item_card, parent, false));
-        else if (viewType == TYPE_END)
-            return new EndHoleder(LayoutInflater.from(context).inflate(R.layout.item_card_add, parent, false));
-        else
-            return null;
+        return null;
     }
 
     @Override
@@ -63,18 +50,18 @@ public class CardAdapter extends BaseRecycleAdapter {
                 //endHoleder.tvRemark.setTextColor(context.getResources().getColor(R.color.color_dash));
                 break;
             case TYPE_ITEM:
-                ItemHoleder itemHoleder = (ItemHoleder) holder;
+                CardAdapter.ItemHoleder itemHoleder = (CardAdapter.ItemHoleder) holder;
                 if (position == 0) {
                     itemHoleder.mTvTransfer.setText("换卡");
                     itemHoleder.mIvAlarm.setVisibility(View.GONE);
                 }
-                itemHoleder.mTvBandcardName.setText(mList.get(position).getCardName());
-                itemHoleder.itemView.setBackgroundResource(CardRes.getCardBg(mList.get(position).getCardName()));
+                itemHoleder.mTvBandcardName.setText(mList.get(position).getBookName());
+                itemHoleder.itemView.setBackgroundResource(CardRes.getCardBg(mList.get(position).getBookName()));
                 itemHoleder.mTvTransfer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, TransferActivity.class);
-                        intent.putExtra(Extra.CARD_ID, mList.get(position).getCardId());
+                        intent.putExtra(Extra.CARD_ID, mList.get(position).getBookId());
                         context.startActivity(intent);
                     }
                 });
@@ -83,7 +70,7 @@ public class CardAdapter extends BaseRecycleAdapter {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, CardRemindActivity.class);
                         intent.putExtra(Extra.CARD_REMIND_START_TYPE, "FragmentCard");
-                        intent.putExtra(Extra.CARD_ID, mList.get(position).getCardId());
+                        intent.putExtra(Extra.CARD_ID, mList.get(position).getBookId());
                         context.startActivity(intent);
                     }
                 });
@@ -94,10 +81,9 @@ public class CardAdapter extends BaseRecycleAdapter {
         }
     }
 
-
     @Override
     public int getItemCount() {
-        return mList.size();
+        return 0;
     }
 
     @Override
@@ -105,12 +91,18 @@ public class CardAdapter extends BaseRecycleAdapter {
         if (position == mList.size() - 1)
             TYPE = TYPE_END;
         else
+            //此处应改为else if 然后判断position
             TYPE = TYPE_ITEM;
         return TYPE;
     }
 
+    public
 
     class ItemHoleder extends RecyclerView.ViewHolder {
+
+        /**
+         * 以下是需要的xml文件中账本界面的图标或信息
+         */
         @BindView(R.id.iv_bandcard)
         ImageView mIvBandcard;
         @BindView(R.id.tv_bandcard_name)
@@ -131,10 +123,17 @@ public class CardAdapter extends BaseRecycleAdapter {
         }
     }
 
-    class EndHoleder extends RecyclerView.ViewHolder {
-        public EndHoleder(View itemView) {
-            super(itemView);
+    class EndHoleder extends RecyclerView.ViewHolder{
+        public EndHoleder(View itemview){
+            super(itemview);
         }
     }
 
+    public static void add(BookBean bookData){
+        /*if (mList == null) {
+            mList = new List<BookBean>();
+        }*/
+        mList.add(bookData);
+        notifyDataSetChanged();
+    }
 }
